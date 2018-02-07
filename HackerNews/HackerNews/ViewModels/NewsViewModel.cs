@@ -41,15 +41,6 @@ namespace HackerNews
             {
                 var topStoryList = await GetTopStories(20).ConfigureAwait(false);
 
-                var sentimentScoreTaskList = new List<Task>();
-                foreach(var story in topStoryList)
-                {
-                    sentimentScoreTaskList.Add(Task.Run(async () => 
-                                                story.TitleSentimentScore = await TextAnalysisService.GetSentiment(story.Title).ConfigureAwait(false)));
-                }
-
-                await Task.WhenAll(sentimentScoreTaskList).ConfigureAwait(false);
-
                 TopStoryList = topStoryList;
             }
             finally
