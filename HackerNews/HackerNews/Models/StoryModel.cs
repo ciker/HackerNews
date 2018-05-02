@@ -9,8 +9,8 @@ namespace HackerNews
     {
         public DateTimeOffset CreatedAt_DateTimeOffset => UnixTimeStampToDateTimeOffset(CreatedAt_UnixTime);
         public string TitleSentimentEmoji => GetEmoji(TitleSentimentScore);
-        
-        public double? TitleSentimentScore { get; set; } = -1;
+
+		public double? TitleSentimentScore { get; set; } = -1;
 
         [JsonProperty("by")]
         public string Author { get; set; }

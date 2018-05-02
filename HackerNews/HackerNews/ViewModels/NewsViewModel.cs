@@ -34,10 +34,13 @@ namespace HackerNews
 
 		#region Methods
 		async Task ExecuteRefreshCommand()
-		{
-			IsListRefreshing = true;
+        {
+            IsListRefreshing = true;
 
-<<<<<<< HEAD
+            try
+            {
+                var topStoryList = await GetTopStories(20).ConfigureAwait(false);
+
                 TopStoryList = topStoryList;
             }
             finally
@@ -45,38 +48,6 @@ namespace HackerNews
                 IsListRefreshing = false;
             }
         }
-
-        async Task<List<StoryModel>> GetTopStories(int numberOfStories)
-        {
-            var topStoryIds = await HackerNewsAPIService.GetTopStoryIDs().ConfigureAwait(false);
-
-            var getTop20StoriesTaskList = new List<Task<StoryModel>>();
-            for (int i = 0; i < numberOfStories; i++)
-            {
-                getTop20StoriesTaskList.Add(HackerNewsAPIService.GetStory(topStoryIds[i]));
-            }
-=======
-			try
-			{
-				var topStoryList = await GetTopStories(20).ConfigureAwait(false);
-
-				var sentimentScoreTaskList = new List<Task>();
-				foreach (var story in topStoryList)
-				{
-					sentimentScoreTaskList.Add(Task.Run(async () =>
-												story.TitleSentimentScore = await TextAnalysisService.GetSentiment(story.Title).ConfigureAwait(false)));
-				}
-
-				await Task.WhenAll(sentimentScoreTaskList).ConfigureAwait(false);
->>>>>>> master
-
-				TopStoryList = topStoryList;
-			}
-			finally
-			{
-				IsListRefreshing = false;
-			}
-		}
 
 		async Task<List<StoryModel>> GetTopStories(int numberOfStories)
 		{
