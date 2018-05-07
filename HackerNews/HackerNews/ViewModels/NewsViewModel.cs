@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Diagnostics;
 using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -13,6 +15,10 @@ namespace HackerNews
 		bool _isListRefreshing;
 		ICommand _refreshCommand;
 		List<StoryModel> _topStoryList;
+		#endregion
+
+		#region Events
+		public event EventHandler<string> PullToRefreshFailed;
 		#endregion
 
 		#region Properties
@@ -43,6 +49,10 @@ namespace HackerNews
 
                 TopStoryList = topStoryList;
             }
+            catch(TaskCanceledException)
+			{
+				OnPullToRefreshFailed("Http Timeout");
+			}
             finally
             {
                 IsListRefreshing = false;
@@ -69,6 +79,8 @@ namespace HackerNews
 
 			return topStoryList.OrderByDescending(x => x.Score).ToList();
 		}
+
+		void OnPullToRefreshFailed(string message) => PullToRefreshFailed?.Invoke(this, message);
 		#endregion
 	}
 }
