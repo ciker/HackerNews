@@ -23,7 +23,7 @@ namespace HackerNews
 
 		#region Properties
 		public ICommand RefreshCommand => _refreshCommand ??
-			(_refreshCommand = new Command(async () => await ExecuteRefreshCommand()));
+			(_refreshCommand = new Command(async () => await ExecuteRefreshCommand().ConfigureAwait(false)));
 
 		public List<StoryModel> TopStoryList
 		{
@@ -47,9 +47,9 @@ namespace HackerNews
             {
                 var topStoryList = await GetTopStories(20).ConfigureAwait(false);
 
-                TopStoryList = topStoryList;
-            }
-            catch(TaskCanceledException)
+				TopStoryList = topStoryList;
+			}
+			catch (TaskCanceledException)
 			{
 				OnPullToRefreshFailed("Http Timeout");
 			}
