@@ -49,7 +49,7 @@ namespace HackerNews
         {
             switch (sentimentScore)
             {
-                case double number when (number > -2 && number <-0.75):
+                case double number when (number > -2 && number < -0.75):
                     return EmojiConstants.SadFaceEmoji;
                 case double number when (number >= -0.75 && number <= 0.25):
                     return EmojiConstants.NeutralFaceEmoji;
