@@ -47,15 +47,6 @@ namespace HackerNews
 			{
 				var topStoryList = await GetTopStories(20).ConfigureAwait(false);
 
-				var topStoryTitleList = topStoryList.Select(x => x.Title).ToList();
-                var sentimentResults = await TextAnalysisService.GetSentiment(topStoryTitleList).ConfigureAwait(false);
-
-				foreach (var sentimentResult in sentimentResults)
-				{
-					var story = topStoryList.Where(x => x.Title.Equals(sentimentResult.Key))?.FirstOrDefault();
-					story.TitleSentimentScore = sentimentResult.Value;
-				}
-
 				TopStoryList = topStoryList;
 			}
 			catch (TaskCanceledException)
