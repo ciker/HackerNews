@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace HackerNews
 {
-    public abstract class BaseViewModel : INotifyPropertyChanged
+    public abstract class BaseViewModel : BaseHttpClientService, INotifyPropertyChanged
     {
         #region Events
         public event PropertyChangedEventHandler PropertyChanged;
